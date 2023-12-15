@@ -69,22 +69,28 @@ namespace Framework.Utilities
         {
             byte[] descData = LoadDescData(packageName);
 
-            var loadResourceAsync = new UIPackage.LoadResourceAsync(
-                (string name, string ext, Type t, PackageItem item) =>
+            UIPackage.LoadResource loadResource = delegate(string name, string ext, Type type, out DestroyMethod destroyMethod)
+            {
+                destroyMethod = DestroyMethod.Unload;
+                // 剔除alpha文件检查
+                if (ext == ".png" && name.EndsWith("!a"))
                 {
-                    // 剔除alpha文件检查
-                    if (ext == ".png" && name.EndsWith("!a"))
-                    {
-                        return;
-                    }
+                    return null;
+                }
 
-                    AssetUtil.LoadAssetAsync<UnityEngine.Object>($"{FileNamePrefix}{packageName}/{name}{ext}",
-                        asset =>
-                        {
-                            item.owner.SetItemAsset(item, asset, DestroyMethod.Unload);
-                        }).Forget();
-                });
-            return UIPackage.AddPackage(descData, packageName, loadResourceAsync);
+                string path = $"{FileNamePrefix}{packageName}/{name}{ext}";
+                if (OnLoadResourceHandler != null)
+                {
+                    return OnLoadResourceHandler(path,type);
+                }
+            
+#if UNITY_EDITOR
+                return AssetDatabase.LoadAssetAtPath(path, type);
+#else
+                return Resources.Load(path, type);
+#endif
+            };
+            return UIPackage.AddPackage(descData, packageName, loadResource);
         }
 
         /// <summary>

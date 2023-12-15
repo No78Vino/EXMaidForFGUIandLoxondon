@@ -7,33 +7,30 @@ namespace Framework.Utilities
 {
     public static class FGUIPackageExtension
     {
+        public delegate byte[] OnLoadDescData(string path);
+
+        public delegate object OnLoadResource(string path, Type type);
+
         private static readonly string FileNamePrefix = "Assets/Game/FGUI/";
 
-        public delegate byte[] OnLoadDescData(string path);
-        
-        public delegate object OnLoadResource(string path, Type type);
-        
         /// <summary>
-        /// 这个必须要注册，不然默认使用的是Resources加载
+        ///     这个必须要注册，不然默认使用的是Resources加载
         /// </summary>
         public static OnLoadDescData OnLoadDescDataHandler;
 
         /// <summary>
-        /// 这个必须要注册，不然默认使用的是Resources加载
+        ///     这个必须要注册，不然默认使用的是Resources加载
         /// </summary>
         public static OnLoadResource OnLoadResourceHandler;
-        
+
         public static UIPackage.LoadResourceAsync LoadResourceAsyncHandler;
-        
+
         private static byte[] LoadDescData(string packageName)
         {
-            string path = $"{FileNamePrefix}{packageName}/{packageName}_fui.bytes";
-            if (OnLoadDescDataHandler != null)
-            {
-                return OnLoadDescDataHandler(path);
-            }
+            var path = $"{FileNamePrefix}{packageName}/{packageName}_fui.bytes";
+            if (OnLoadDescDataHandler != null) return OnLoadDescDataHandler(path);
             //EXLog.Warning($"[FGUI] OnLoadDescDataHandler is null, use default load method!");
-            
+
 #if UNITY_EDITOR
             return AssetDatabase.LoadAssetAtPath<TextAsset>(path).bytes;
 #else
@@ -41,22 +38,16 @@ namespace Framework.Utilities
 #endif
         }
 
-        private static object LoadResource(string name, string extension, System.Type type,
+        private static object LoadResource(string name, string extension, Type type,
             out DestroyMethod destroyMethod)
         {
             destroyMethod = DestroyMethod.Unload;
             // 剔除alpha文件检查
-            if (extension == ".png" && name.EndsWith("!a"))
-            {
-                return null;
-            }
+            if (extension == ".png" && name.EndsWith("!a")) return null;
 
-            string path = $"{FileNamePrefix}{name}{extension}";
-            if (OnLoadResourceHandler != null)
-            {
-                return OnLoadResourceHandler(path,type);
-            }
-            
+            var path = $"{FileNamePrefix}{name}{extension}";
+            if (OnLoadResourceHandler != null) return OnLoadResourceHandler(path, type);
+
 #if UNITY_EDITOR
             return AssetDatabase.LoadAssetAtPath(path, type);
 #else
@@ -67,34 +58,29 @@ namespace Framework.Utilities
 
         public static UIPackage AddPackage(string packageName)
         {
-            byte[] descData = LoadDescData(packageName);
+            var descData = LoadDescData(packageName);
 
-            UIPackage.LoadResource loadResource = delegate(string name, string ext, Type type, out DestroyMethod destroyMethod)
-            {
-                destroyMethod = DestroyMethod.Unload;
-                // 剔除alpha文件检查
-                if (ext == ".png" && name.EndsWith("!a"))
+            UIPackage.LoadResource loadResource =
+                delegate(string name, string ext, Type type, out DestroyMethod destroyMethod)
                 {
-                    return null;
-                }
+                    destroyMethod = DestroyMethod.Unload;
+                    // 剔除alpha文件检查
+                    if (ext == ".png" && name.EndsWith("!a")) return null;
 
-                string path = $"{FileNamePrefix}{packageName}/{name}{ext}";
-                if (OnLoadResourceHandler != null)
-                {
-                    return OnLoadResourceHandler(path,type);
-                }
-            
+                    var path = $"{FileNamePrefix}{packageName}/{name}{ext}";
+                    if (OnLoadResourceHandler != null) return OnLoadResourceHandler(path, type);
+
 #if UNITY_EDITOR
-                return AssetDatabase.LoadAssetAtPath(path, type);
+                    return AssetDatabase.LoadAssetAtPath(path, type);
 #else
                 return Resources.Load(path, type);
 #endif
-            };
+                };
             return UIPackage.AddPackage(descData, packageName, loadResource);
         }
 
         /// <summary>
-        /// FGUI 包体加载（包括依赖包的加载）
+        ///     FGUI 包体加载（包括依赖包的加载）
         /// </summary>
         /// <param name="packageName"></param>
         /// <returns></returns>
@@ -110,7 +96,7 @@ namespace Framework.Utilities
             }
 
             if (p.dependencies != null && p.dependencies.Length > 0)
-                for (int i = 0; i < p.dependencies.Length; i++)
+                for (var i = 0; i < p.dependencies.Length; i++)
                 {
                     var name = p.dependencies[i]["name"];
                     if (IsPackageLoaded(name)) continue;

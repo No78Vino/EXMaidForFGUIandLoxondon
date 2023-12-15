@@ -1,5 +1,6 @@
 using System;
 using FairyGUI;
+using UnityEditor;
 using UnityEngine;
 
 namespace Framework.Utilities
@@ -8,12 +9,36 @@ namespace Framework.Utilities
     {
         private static readonly string FileNamePrefix = "Assets/Game/FGUI/";
 
+        public delegate byte[] OnLoadDescData(string path);
+        
+        public delegate object OnLoadResource(string path, Type type);
+        
+        /// <summary>
+        /// 这个必须要注册，不然默认使用的是Resources加载
+        /// </summary>
+        public static OnLoadDescData OnLoadDescDataHandler;
+
+        /// <summary>
+        /// 这个必须要注册，不然默认使用的是Resources加载
+        /// </summary>
+        public static OnLoadResource OnLoadResourceHandler;
+        
+        public static UIPackage.LoadResourceAsync LoadResourceAsyncHandler;
+        
         private static byte[] LoadDescData(string packageName)
         {
-            return ((TextAsset)YooAssets
-                    .LoadAssetSync($"{FileNamePrefix}{packageName}/{packageName}_fui.bytes", typeof(TextAsset))
-                    .AssetObject)
-                .bytes;
+            string path = $"{FileNamePrefix}{packageName}/{packageName}_fui.bytes";
+            if (OnLoadDescDataHandler != null)
+            {
+                return OnLoadDescDataHandler(path);
+            }
+            //EXLog.Warning($"[FGUI] OnLoadDescDataHandler is null, use default load method!");
+            
+#if UNITY_EDITOR
+            return AssetDatabase.LoadAssetAtPath<TextAsset>(path).bytes;
+#else
+            return Resources.Load<TextAsset>(path).bytes;
+#endif
         }
 
         private static object LoadResource(string name, string extension, System.Type type,
@@ -26,7 +51,17 @@ namespace Framework.Utilities
                 return null;
             }
 
-            return YooAssets.LoadAssetSync($"{FileNamePrefix}{name}{extension}", type).AssetObject;
+            string path = $"{FileNamePrefix}{name}{extension}";
+            if (OnLoadResourceHandler != null)
+            {
+                return OnLoadResourceHandler(path,type);
+            }
+            
+#if UNITY_EDITOR
+            return AssetDatabase.LoadAssetAtPath(path, type);
+#else
+            return Resources.Load(path, type);
+#endif
         }
 
 

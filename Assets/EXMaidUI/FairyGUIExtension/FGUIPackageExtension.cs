@@ -7,8 +7,6 @@ namespace Framework.Utilities
 {
     public static class FGUIPackageExtension
     {
-        public delegate byte[] OnLoadDescData(string path);
-
         public delegate object OnLoadResource(string path, Type type);
 
         private static readonly string FileNamePrefix = "Assets/Game/FGUI/";
@@ -16,19 +14,20 @@ namespace Framework.Utilities
         /// <summary>
         ///     这个必须要注册，不然默认使用的是Resources加载
         /// </summary>
-        public static OnLoadDescData OnLoadDescDataHandler;
-
-        /// <summary>
-        ///     这个必须要注册，不然默认使用的是Resources加载
-        /// </summary>
-        public static OnLoadResource OnLoadResourceHandler;
-
-        public static UIPackage.LoadResourceAsync LoadResourceAsyncHandler;
-
+        private static OnLoadResource OnLoadResourceHandler;
+        
+        public static void RegisterOnLoadResourceHandler(OnLoadResource handler)
+        {
+            OnLoadResourceHandler = handler;
+        }
+        
         private static byte[] LoadDescData(string packageName)
         {
             var path = $"{FileNamePrefix}{packageName}/{packageName}_fui.bytes";
-            if (OnLoadDescDataHandler != null) return OnLoadDescDataHandler(path);
+            if (OnLoadResourceHandler != null)
+            {
+                return ((TextAsset)OnLoadResourceHandler(path, typeof(TextAsset))).bytes;
+            }
             //EXLog.Warning($"[FGUI] OnLoadDescDataHandler is null, use default load method!");
 
 #if UNITY_EDITOR

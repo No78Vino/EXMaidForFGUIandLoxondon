@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FairyGUI;
 using FairyGUI.Extension;
+using Framework.Utilities;
 using Loxodon.Framework.Binding;
 using Loxodon.Framework.Contexts;
 using UnityEngine;
@@ -11,7 +12,7 @@ namespace EXTool.EXMaid.UI
 {
     public interface IEXMaidUI
     {
-        void LaunchBindingService();
+        void LaunchBindingService(FGUIPackageExtension.OnLoadResource onLoadResourceHandler);
 
         T LoadWindow<T>() where T : AbstractFGUIWindow;
 
@@ -37,7 +38,7 @@ namespace EXTool.EXMaid.UI
         private GComponent _worldSpaceUICanvas;
         private Window _worldSpaceUIWindow;
 
-        public void LaunchBindingService()
+        public void LaunchBindingService(FGUIPackageExtension.OnLoadResource onLoadResourceHandler = null)
         {
             var context = Context.GetApplicationContext();
             var container = context.GetContainer();
@@ -47,6 +48,8 @@ namespace EXTool.EXMaid.UI
             //初始化支持FairyGUI的数据绑定相关组件，请在BindingServiceBundle启动后执行
             var fairyGUIBindingServiceBundle = new FairyGUIBindingServiceBundle(container);
             fairyGUIBindingServiceBundle.Start();
+            
+            FGUIPackageExtension.RegisterOnLoadResourceHandler(onLoadResourceHandler);
         }
 
         public T LoadWindow<T>() where T : AbstractFGUIWindow

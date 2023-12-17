@@ -27,11 +27,13 @@ namespace EXMaidUI.Editor
             Application.OpenURL("https://github.com/vovgou/loxodon-framework/blob/master/docs/LoxodonFramework.md");
         }
 
-        [LabelText("FairyGUI资源包路径")]
+        [LabelText("FairyGUI 资源包路径:")]
+        [LabelWidth(200)]
         [OnValueChanged("OnAssetChanged")]
         public string FairyGUIPackagePath;
         
-        [LabelText("FairyGUI 定义代码生成路径")]
+        [LabelText("FairyGUI 定义代码生成路径:")]
+        [LabelWidth(200)]
         [OnValueChanged("OnAssetChanged")]
         public string FairyGUIGenUIDefinePath;
 

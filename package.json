@@ -1,0 +1,20 @@
+{
+  "name": "com.exhard.exmaidforui",
+  "version": "1.0.0",
+  "displayName": "EX-Maid For UI",
+  "unity": "2022.3",
+  "description": "EX Maid For UI is a UI plugin designed for FairyGUI and LoxodonFramework. It not only integrates the aforementioned two plugins but also provides a complete MVVM-structured UI solution.",
+  "license": "MIT",
+  "documentationUrl": "https://github.com/No78Vino/EXMaidForFGUIandLoxondon",
+  "dependencies": {},
+  "author": {
+    "name": "EX-Hard",
+    "email": "",
+    "url": "https://github.com/No78Vino"
+  },
+
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/No78Vino/EXMaidForFGUIandLoxondon.git"
+  }
+}

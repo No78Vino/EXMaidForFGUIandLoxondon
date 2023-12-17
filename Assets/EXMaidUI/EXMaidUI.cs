@@ -83,7 +83,7 @@ namespace EXTool.EXMaid.UI
             var t = typeof(T);
             if (!_vms.ContainsKey(t))
             {
-                Debug.LogWarning($"[UI] View Model:{t} has not been loaded! Please LOAD it before CALLING.");
+                EXLog.Warning($"[UI] View Model:{t} has not been loaded! Please LOAD it before CALLING.");
                 return null;
             }
 

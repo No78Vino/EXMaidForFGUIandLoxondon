@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using EXMaidForUI.Runtime.EXMaid;
 using UnityEditor;
 using UnityEngine;
 
@@ -13,7 +14,7 @@ public static class UIDefineGen
     static HashSet<PackageItem> _itemsMap;
     static CSharpCodeProvider _codeProvider = new CSharpCodeProvider();
 
-    [MenuItem("EXTool/EX Maid For UI//Gen FairyGUI Define Code")]
+    [MenuItem("EXTool/EX Maid For UI/Generate FairyGUI Define Code")]
     static void Gen()
     {
         EditorToolSet.ReloadPackages();
@@ -29,7 +30,7 @@ namespace UIGen
     }}
 {string.Join("", UIPackage.GetPackages().Select(GenPackageClass))}
 }}";
-        File.WriteAllText($"{Application.dataPath}/Scripts/UI/Gen/UIDefine.gen.cs", code);
+        File.WriteAllText($"{Application.dataPath}{EXMaidUIDefine.FGUI_GEN_UI_DEFINE_PATH}UIDefine.gen.cs", code);
     }
     static string GenPackageClass(UIPackage package)
     {

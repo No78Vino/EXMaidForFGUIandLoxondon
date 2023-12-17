@@ -1,56 +1,70 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using EXMaidForUI.Runtime.FairyGUIExtension;
 using EXTool;
 using FairyGUI;
 using FairyGUI.Extension;
-using Framework.Utilities;
 using Loxodon.Framework.Binding;
 using Loxodon.Framework.Contexts;
 using UnityEngine;
 
-namespace EXMaidForUI
+namespace EXMaidForUI.Runtime.EXMaid
 {
-    public interface IEXMaidForUI
+    public interface IEXMaidUI
     {
-        void LaunchBindingService(FGUIPackageExtension.OnLoadResource onLoadResourceHandler);
+        void UITick();
+
+        void OnDispose();
+
+        void LaunchBindingService(FairyGUIPackageExtension.OnLoadResource onLoadResourceHandler);
 
         T LoadWindow<T>() where T : AbstractFGUIWindow;
 
         void UnloadWindow<T>() where T : AbstractFGUIWindow;
 
         T OpenWindow<T>() where T : AbstractFGUIWindow;
-        
+
         T VM<T>() where T : ViewModelCommon;
-        
+
         AbstractFGUIWindow Windows(Type type);
-        
+
         AbstractFGUIWindow WindowsWithoutLoad(Type type);
 
         void AddWorldSpaceUI(GObject obj);
+
         void RefreshSceneUICanvas(float cameraSize);
     }
 
-    public sealed class EXMaidForUI : IEXMaidForUI
+    public sealed class EXMaidUI : IEXMaidUI
     {
+        private BindingServiceBundle _bundle;
+        private FairyGUIBindingServiceBundle _fairyGUIBindingServiceBundle;
         private float _secondCount;
-        private Dictionary<Type, ViewModelCommon> _vms;
-        private Dictionary<Type, AbstractFGUIWindow> _windows;
+        private readonly Dictionary<Type, ViewModelCommon> _vms;
+        private readonly Dictionary<Type, AbstractFGUIWindow> _windows;
         private GComponent _worldSpaceUICanvas;
         private Window _worldSpaceUIWindow;
 
-        public void LaunchBindingService(FGUIPackageExtension.OnLoadResource onLoadResourceHandler = null)
+        public EXMaidUI()
+        {
+            _windows = new Dictionary<Type, AbstractFGUIWindow>();
+            _vms = new Dictionary<Type, ViewModelCommon>();
+            CreateWorldSpaceUICanvas();
+        }
+
+        public void LaunchBindingService(FairyGUIPackageExtension.OnLoadResource onLoadResourceHandler = null)
         {
             var context = Context.GetApplicationContext();
             var container = context.GetContainer();
             /* Initialize the data binding service */
-            var bundle = new BindingServiceBundle(container);
-            bundle.Start();
-            //初始化支持FairyGUI的数据绑定相关组件，请在BindingServiceBundle启动后执行
-            var fairyGUIBindingServiceBundle = new FairyGUIBindingServiceBundle(container);
-            fairyGUIBindingServiceBundle.Start();
-            
-            FGUIPackageExtension.RegisterOnLoadResourceHandler(onLoadResourceHandler);
+            _bundle = new BindingServiceBundle(container);
+            _bundle.Start();
+
+            _fairyGUIBindingServiceBundle = new FairyGUIBindingServiceBundle(container);
+            _fairyGUIBindingServiceBundle.Start();
+
+            FairyGUIPackageExtension.RegisterOnLoadResourceHandler(onLoadResourceHandler);
         }
 
         public T LoadWindow<T>() where T : AbstractFGUIWindow
@@ -132,14 +146,7 @@ namespace EXMaidForUI
             _worldSpaceUICanvas.y = gRoot.viewHeight * 0.5f + localPosition.y * size;
         }
 
-        public void OnServiceStart()
-        {
-            _windows = new Dictionary<Type, AbstractFGUIWindow>();
-            _vms = new Dictionary<Type, ViewModelCommon>();
-            CreateWorldSpaceUICanvas();
-        }
-
-        public void OnServiceUpdate()
+        public void UITick()
         {
             _secondCount += Time.deltaTime;
             var isSecondUpdate = _secondCount > 1;
@@ -152,11 +159,13 @@ namespace EXMaidForUI
                 }
         }
 
-        public void OnServiceStop()
+        public void OnDispose()
         {
-            UnloadAllWindow();
+            UnloadAllWindows();
             _worldSpaceUIWindow.Dispose();
-            //UIPackage.RemoveAllPackages();
+
+            _bundle.Stop();
+            _fairyGUIBindingServiceBundle.Stop();
         }
 
         ///创建地图UI画布
@@ -171,19 +180,19 @@ namespace EXMaidForUI
 
             _worldSpaceUICanvas = new GComponent();
             _worldSpaceUICanvas.touchable = true;
-            _worldSpaceUICanvas.name = "MapCanvas";
+            _worldSpaceUICanvas.name = "World FairyGUI Canvas";
             _worldSpaceUIWindow.contentPane.AddChild(_worldSpaceUICanvas);
         }
 
         ///世界坐标系 -> 地图UI画布坐标系
-        public static Vector3 WorldSpaceToUISpacePosition(Vector3 worldPos, float cameraSize)
+        public static Vector3 WorldSpaceToUISpace(Vector3 worldPos, float cameraSize)
         {
             var gRoot = GRoot.inst;
             var size = gRoot.viewHeight * 0.5f / cameraSize;
             return new Vector3(worldPos.x * size + gRoot.x, -worldPos.y * size - gRoot.y, 0);
         }
 
-        private void UnloadAllWindow()
+        private void UnloadAllWindows()
         {
             var listCopy = _windows.Values.ToList();
             foreach (var win in listCopy)

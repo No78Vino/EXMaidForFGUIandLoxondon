@@ -1,16 +1,12 @@
-using FairyGUI;
-using Framework.Utilities;
-using Logic.LogicUtil;
+using EXMaidForUI.Runtime.FairyGUIExtension;
+using EXTool;
 using Loxodon.Framework.Binding.Contexts;
 using Loxodon.Framework.Interactivity;
-using UnityEngine;
 
 namespace FairyGUI.Extension
 {
-
     public abstract class AbstractFGUIWindow : Window
     {
-        private static readonly string PackagePath = "Assets/Game/FGUI/{0}/{1}";
         private IBindingContext _bindingContext;
 
         /// <summary>
@@ -19,6 +15,8 @@ namespace FairyGUI.Extension
         protected bool _isFullScreen;
 
         protected bool _isModal;
+
+        private GButton _modalButton;
 
         protected string _pkgName;
         protected ViewModelCommon _vm;
@@ -37,7 +35,7 @@ namespace FairyGUI.Extension
             _pkgName = pkgName;
             _windowPathName = windowName;
             _isFullScreen = isFullScreen;
-            FGUIPackageExtension.LoadPackage(_pkgName);
+            FairyGUIPackageExtension.LoadPackage(_pkgName);
             contentPane = UIPackage.CreateObject(_pkgName, _windowPathName).asCom;
             if (_isFullScreen) MakeFullScreen();
             bindingContext.DataContext = _vm;
@@ -46,13 +44,11 @@ namespace FairyGUI.Extension
             bringToFontOnClick = false;
         }
 
-        private GButton _modalButton;
-
         protected GObject _ui(string path)
         {
-            string[] arr = path.Split('.');
-            int cnt = arr.Length;
-            GComponent gcom = contentPane;
+            var arr = path.Split('.');
+            var cnt = arr.Length;
+            var gcom = contentPane;
             GObject obj = null;
             for (var i = 0; i < cnt; ++i)
             {
@@ -76,14 +72,20 @@ namespace FairyGUI.Extension
                                 obj = actualIdx >= 0 ? list.GetChildAt(actualIdx) : null;
                             }
                             else
+                            {
                                 obj = null;
+                            }
                         }
                     }
                     else
+                    {
                         obj = null;
+                    }
                 }
                 else
+                {
                     obj = gcom.GetChild(arr[i]);
+                }
 
                 if (obj == null) break;
                 if (i == cnt - 1) continue;
@@ -98,7 +100,7 @@ namespace FairyGUI.Extension
 
 
             if (obj == null)
-                Debug.LogError($"[FairyGUI] No Component Path:{path} In WindowComponent:{_windowPathName}.");
+                EXLog.Error($"[FairyGUI] No Component Path:{path} In WindowComponent:{_windowPathName}.");
             return obj;
         }
 
@@ -107,29 +109,19 @@ namespace FairyGUI.Extension
             return _ui(path);
         }
 
-        /// <summary>
-        ///     接受VM指令：通用控制
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
         protected virtual void Msg_Common(object sender, InteractionEventArgs args)
         {
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
             if (args.Context != null)
-                Debug.Log($"{GetType()} Msg_Common args.Context = {args.Context}");
+                EXLog.Log($"{GetType()} Msg_Common args.Context = {args.Context}");
 #endif
         }
 
-        /// <summary>
-        ///     接受VM指令：动效控制
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
         protected virtual void Msg_Transition(object sender, InteractionEventArgs args)
         {
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
             if (args.Context != null)
-                Debug.Log($"{GetType()} Msg_Transition args.Context = {args.Context}");
+                EXLog.Log($"{GetType()} Msg_Transition args.Context = {args.Context}");
 #endif
         }
 
@@ -141,7 +133,6 @@ namespace FairyGUI.Extension
 
         public virtual void OnDispose()
         {
-
         }
     }
 }

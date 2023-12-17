@@ -1,32 +1,35 @@
 using System;
+using EXMaidForUI.Runtime.EXMaid;
 using FairyGUI;
 using UnityEditor;
 using UnityEngine;
 
-namespace Framework.Utilities
+namespace EXMaidForUI.Runtime.FairyGUIExtension
 {
-    public static class FGUIPackageExtension
+    public static class FairyGUIPackageExtension
     {
         public delegate object OnLoadResource(string path, Type type);
 
-        private static readonly string FileNamePrefix = "Assets/Game/FGUI/";
+        private static string fileNamePrefix => EXMaidUIDefine.FGUI_PACKAGE_PATH;
 
         /// <summary>
         ///     这个必须要注册，不然默认使用的是Resources加载
         /// </summary>
-        private static OnLoadResource OnLoadResourceHandler;
+        private static OnLoadResource _onLoadResourceHandler;
+
+        public static OnLoadResource OnLoadResourceHandler => _onLoadResourceHandler;
         
         public static void RegisterOnLoadResourceHandler(OnLoadResource handler)
         {
-            OnLoadResourceHandler = handler;
+            _onLoadResourceHandler = handler;
         }
         
         private static byte[] LoadDescData(string packageName)
         {
-            var path = $"{FileNamePrefix}{packageName}/{packageName}_fui.bytes";
-            if (OnLoadResourceHandler != null)
+            var path = $"{fileNamePrefix}{packageName}/{packageName}_fui.bytes";
+            if (_onLoadResourceHandler != null)
             {
-                return ((TextAsset)OnLoadResourceHandler(path, typeof(TextAsset))).bytes;
+                return ((TextAsset)_onLoadResourceHandler(path, typeof(TextAsset))).bytes;
             }
             //EXLog.Warning($"[FGUI] OnLoadDescDataHandler is null, use default load method!");
 
@@ -44,8 +47,8 @@ namespace Framework.Utilities
             // 剔除alpha文件检查
             if (extension == ".png" && name.EndsWith("!a")) return null;
 
-            var path = $"{FileNamePrefix}{name}{extension}";
-            if (OnLoadResourceHandler != null) return OnLoadResourceHandler(path, type);
+            var path = $"{fileNamePrefix}{name}{extension}";
+            if (_onLoadResourceHandler != null) return _onLoadResourceHandler(path, type);
 
 #if UNITY_EDITOR
             return AssetDatabase.LoadAssetAtPath(path, type);
@@ -66,8 +69,8 @@ namespace Framework.Utilities
                     // 剔除alpha文件检查
                     if (ext == ".png" && name.EndsWith("!a")) return null;
 
-                    var path = $"{FileNamePrefix}{packageName}/{name}{ext}";
-                    if (OnLoadResourceHandler != null) return OnLoadResourceHandler(path, type);
+                    var path = $"{fileNamePrefix}{packageName}/{name}{ext}";
+                    if (_onLoadResourceHandler != null) return _onLoadResourceHandler(path, type);
 
 #if UNITY_EDITOR
                     return AssetDatabase.LoadAssetAtPath(path, type);

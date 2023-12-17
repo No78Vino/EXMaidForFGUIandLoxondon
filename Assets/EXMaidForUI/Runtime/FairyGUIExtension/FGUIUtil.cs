@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
+using EXMaidForUI.Runtime.FairyGUIExtension;
+using EXTool;
 using FairyGUI;
-using Framework.Utilities;
 using UnityEngine;
 
 namespace Logic.LogicUtil
@@ -16,23 +17,20 @@ namespace Logic.LogicUtil
 
         private static NTexture GetItem(string packName, string texName)
         {
-            FGUIPackageExtension.LoadPackage(packName);
+            FairyGUIPackageExtension.LoadPackage(packName);
             var url = UIPackage.GetItemURL(packName, texName);
             if (string.IsNullOrEmpty(url))
             {
-                Debug.LogError($"[FGUI] 资源不存在，package:{packName}  texture:{texName}");
+                EXLog.Error($"[FGUI] 资源不存在，package:{packName}  texture:{texName}");
                 return null;
             }
 
             var res = UIPackage.GetItemAssetByURL(url) as NTexture;
 
-            if (res == null)
-            {
-                Debug.LogError($"[FGUI]资源非纹理资源，package:{packName}  texture:{texName}");
-                return null;
-            }
+            if (res != null) return res;
+            EXLog.Error($"[FGUI] 资源非纹理资源，package:{packName}  texture:{texName}");
+            return null;
 
-            return res;
         }
 
         /// <summary>
@@ -97,7 +95,7 @@ namespace Logic.LogicUtil
         /// <returns></returns>
         public static GObject GetObject(string packName, string itemName)
         {
-            FGUIPackageExtension.LoadPackage(packName);
+            FairyGUIPackageExtension.LoadPackage(packName);
             var url = UIPackage.GetItemURL(packName, itemName);
             if (string.IsNullOrEmpty(url))
             {
@@ -118,7 +116,7 @@ namespace Logic.LogicUtil
 
         public static GObject CreateObject(string packName, string itemName)
         {
-            FGUIPackageExtension.LoadPackage(packName);
+            FairyGUIPackageExtension.LoadPackage(packName);
             return UIPackage.CreateObject(packName, itemName);
         }
 

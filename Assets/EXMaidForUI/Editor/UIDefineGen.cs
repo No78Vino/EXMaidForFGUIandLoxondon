@@ -13,7 +13,7 @@ public static class UIDefineGen
     static HashSet<PackageItem> _itemsMap;
     static CSharpCodeProvider _codeProvider = new CSharpCodeProvider();
 
-    [MenuItem("Tools/Gen UI Define Code")]
+    [MenuItem("EXTool/EX Maid For UI//Gen FairyGUI Define Code")]
     static void Gen()
     {
         EditorToolSet.ReloadPackages();

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using EXTool;
 using FairyGUI;
 using FairyGUI.Extension;
 using Framework.Utilities;
@@ -8,9 +9,9 @@ using Loxodon.Framework.Binding;
 using Loxodon.Framework.Contexts;
 using UnityEngine;
 
-namespace EXTool.EXMaid.UI
+namespace EXMaidForUI
 {
-    public interface IEXMaidUI
+    public interface IEXMaidForUI
     {
         void LaunchBindingService(FGUIPackageExtension.OnLoadResource onLoadResourceHandler);
 
@@ -30,7 +31,7 @@ namespace EXTool.EXMaid.UI
         void RefreshSceneUICanvas(float cameraSize);
     }
 
-    public sealed class EXMaidUI : IEXMaidUI
+    public sealed class EXMaidForUI : IEXMaidForUI
     {
         private float _secondCount;
         private Dictionary<Type, ViewModelCommon> _vms;

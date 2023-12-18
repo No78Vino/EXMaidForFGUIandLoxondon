@@ -1,5 +1,5 @@
-﻿using EXTool;
-using UnityEditor;
+﻿using UnityEditor;
+using UnityEngine;
 
 namespace EXMaidForUI.Runtime.EXMaid
 {
@@ -19,7 +19,7 @@ namespace EXMaidForUI.Runtime.EXMaid
             if (!AssetDatabase.IsValidFolder(ASSET_FOLDER_PATH))
             {
                 AssetDatabase.CreateFolder("Assets", ASSET_FOLDER_NAME);
-                EXLog.Log($"EXMaid folder created!");
+                Debug.Log("EXMaid folder created!");
             }
         }
     }

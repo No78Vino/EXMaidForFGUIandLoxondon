@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using EXMaidForUI.Runtime.FairyGUIExtension;
-using EXTool;
 using FairyGUI;
 using UnityEngine;
 
@@ -21,14 +20,14 @@ namespace Logic.LogicUtil
             var url = UIPackage.GetItemURL(packName, texName);
             if (string.IsNullOrEmpty(url))
             {
-                EXLog.Error($"[FGUI] 资源不存在，package:{packName}  texture:{texName}");
+                Debug.LogError($"[FGUI] 资源不存在，package:{packName}  texture:{texName}");
                 return null;
             }
 
             var res = UIPackage.GetItemAssetByURL(url) as NTexture;
 
             if (res != null) return res;
-            EXLog.Error($"[FGUI] 资源非纹理资源，package:{packName}  texture:{texName}");
+            Debug.LogError($"[FGUI] 资源非纹理资源，package:{packName}  texture:{texName}");
             return null;
 
         }

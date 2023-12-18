@@ -7,9 +7,7 @@
   "license": "MIT",
   "documentationUrl": "https://github.com/No78Vino/EXMaidForFGUIandLoxondon",
   "dependencies": {
-    "com.unity.modules.xr": "1.0.0",
-    "com.exhard.exbasekit": "https://github.com/No78Vino/ExBaseKit.git",
-    "com.vovgou.loxodon-framework": "https://github.com/vovgou/loxodon-framework.git?path=Loxodon.Framework/Assets/LoxodonFramework"
+    "com.unity.modules.xr": "1.0.0"
   },
   "author": {
     "name": "EX-Hard",

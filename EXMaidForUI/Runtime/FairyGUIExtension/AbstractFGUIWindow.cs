@@ -1,7 +1,7 @@
 using EXMaidForUI.Runtime.FairyGUIExtension;
+using EXTool;
 using Loxodon.Framework.Binding.Contexts;
 using Loxodon.Framework.Interactivity;
-using UnityEngine;
 
 namespace FairyGUI.Extension
 {
@@ -100,7 +100,7 @@ namespace FairyGUI.Extension
 
 
             if (obj == null)
-                Debug.LogError($"[FairyGUI] No Component Path:{path} In WindowComponent:{_windowPathName}.");
+                EXLog.Error($"[FairyGUI] No Component Path:{path} In WindowComponent:{_windowPathName}.");
             return obj;
         }
 
@@ -113,7 +113,7 @@ namespace FairyGUI.Extension
         {
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
             if (args.Context != null)
-                Debug.Log($"{GetType()} Msg_Common args.Context = {args.Context}");
+                EXLog.Log($"{GetType()} Msg_Common args.Context = {args.Context}");
 #endif
         }
 
@@ -121,7 +121,7 @@ namespace FairyGUI.Extension
         {
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
             if (args.Context != null)
-                Debug.Log($"{GetType()} Msg_Transition args.Context = {args.Context}");
+                EXLog.Log($"{GetType()} Msg_Transition args.Context = {args.Context}");
 #endif
         }
 

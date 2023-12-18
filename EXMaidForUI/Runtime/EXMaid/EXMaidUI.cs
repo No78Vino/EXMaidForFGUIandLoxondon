@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using EXMaidForUI.Runtime.FairyGUIExtension;
+using EXTool;
 using FairyGUI;
 using FairyGUI.Extension;
 using Loxodon.Framework.Binding;
@@ -97,7 +98,7 @@ namespace EXMaidForUI.Runtime.EXMaid
             var t = typeof(T);
             if (!_vms.ContainsKey(t))
             {
-                Debug.LogWarning($"[EXMaid] View Model:{t} has not been loaded! Please LOAD it before CALLING.");
+                EXLog.Warning($"[UI] View Model:{t} has not been loaded! Please LOAD it before CALLING.");
                 return null;
             }
 

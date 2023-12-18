@@ -7,7 +7,8 @@
   "license": "MIT",
   "documentationUrl": "https://github.com/No78Vino/EXMaidForFGUIandLoxondon",
   "dependencies": {
-    "com.unity.modules.xr": "1.0.0"
+    "com.unity.modules.xr": "1.0.0",
+    "com.exhard.exbasekit": "1.0.1"
   },
   "author": {
     "name": "EX-Hard",

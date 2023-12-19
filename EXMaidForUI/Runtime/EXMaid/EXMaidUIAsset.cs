@@ -17,8 +17,12 @@ namespace EXMaidForUI.Runtime.EXMaid
             if (Application.isPlaying)
             {
                 EXMaidUIAsset exMaidUIAsset = FairyGUIPackageExtension.OnLoadResourceHandler(path, typeof(EXMaidUIAsset)) as EXMaidUIAsset;
-                Debug.Assert(exMaidUIAsset==null, "[EX] EXMaidUIAsset is null!" +
-                                                  "Set it in EXMaidUI Setting Editor(EXTool/EX Maid For UI/Setting)!");
+                if (exMaidUIAsset == null)
+                {
+                    Debug.LogError("[EX] EXMaidUIAsset is null!" +
+                                   "Set it in EXMaidUI Setting Editor(EXTool/EX Maid For UI/Setting)!");
+                }
+
                 return exMaidUIAsset;
             }
             else

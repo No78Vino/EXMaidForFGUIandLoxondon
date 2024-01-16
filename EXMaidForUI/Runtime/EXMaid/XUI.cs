@@ -10,10 +10,10 @@ namespace EXMaidForUI.Runtime.EXMaid
         
         static EXMaidUIHost _exMaidUIHost;
 
-        public static void Launch(FairyGUIPackageExtension.OnLoadResource onLoadResourceHandler)
+        public static void Launch(string prefix,FairyGUIPackageExtension.OnLoadResource onLoadResourceHandler)
         {
             _exMaidUI = new EXMaidUI();
-            _exMaidUI.LaunchBindingService(onLoadResourceHandler);
+            _exMaidUI.LaunchBindingService(prefix,onLoadResourceHandler);
             
             _exMaidUIHost = new GameObject("EXMaidUIHost").AddComponent<EXMaidUIHost>();
             _exMaidUIHost.gameObject.hideFlags = HideFlags.HideInHierarchy;

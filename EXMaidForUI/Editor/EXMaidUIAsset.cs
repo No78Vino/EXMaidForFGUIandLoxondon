@@ -1,15 +1,19 @@
-﻿using EXMaidForUI.Runtime.FairyGUIExtension;
-using UnityEditor;
-using UnityEngine;
-
+﻿#if UNITY_EDITOR
 namespace EXMaidForUI.Runtime.EXMaid
 {
+    using EXMaidForUI.Runtime.FairyGUIExtension;
+    using UnityEditor;
+    using UnityEngine;
+    
     public class EXMaidUIAsset : ScriptableObject
     {
         public string fguiPackagePath;
         public string fguiGenUIDefinePath;
 
-
+        
+        private static EXMaidUIAsset _asset;
+        public static EXMaidUIAsset Asset => _asset ? _asset : _asset = Load();
+        
         public static EXMaidUIAsset Load()
         {
             string path = EXMaidUIDefine.ASSET_PATH;
@@ -44,3 +48,4 @@ namespace EXMaidForUI.Runtime.EXMaid
 
     }
 }
+#endif

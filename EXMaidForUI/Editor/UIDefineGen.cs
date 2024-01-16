@@ -30,7 +30,7 @@ namespace UIGen
     }}
 {string.Join("", UIPackage.GetPackages().Select(GenPackageClass))}
 }}";
-            File.WriteAllText($"{Application.dataPath}{EXMaidUIDefine.FGUI_GEN_UI_DEFINE_PATH}UIDefine.gen.cs", code);
+            File.WriteAllText($"{Application.dataPath}{EXMaidUIAsset.Asset.fguiGenUIDefinePath}UIDefine.gen.cs", code);
         }
 
         private static string GenPackageClass(UIPackage package)

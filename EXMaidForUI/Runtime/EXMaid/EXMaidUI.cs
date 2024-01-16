@@ -16,7 +16,7 @@ namespace EXMaidForUI.Runtime.EXMaid
 
         void OnDispose();
 
-        void LaunchBindingService(FairyGUIPackageExtension.OnLoadResource onLoadResourceHandler);
+        void LaunchBindingService(string prefix,FairyGUIPackageExtension.OnLoadResource onLoadResourceHandler);
 
         T LoadWindow<T>() where T : AbstractFGUIWindow;
 
@@ -52,7 +52,7 @@ namespace EXMaidForUI.Runtime.EXMaid
             CreateWorldSpaceUICanvas();
         }
 
-        public void LaunchBindingService(FairyGUIPackageExtension.OnLoadResource onLoadResourceHandler = null)
+        public void LaunchBindingService(string prefix,FairyGUIPackageExtension.OnLoadResource onLoadResourceHandler = null)
         {
             var context = Context.GetApplicationContext();
             var container = context.GetContainer();
@@ -64,6 +64,7 @@ namespace EXMaidForUI.Runtime.EXMaid
             _fairyGUIBindingServiceBundle.Start();
 
             FairyGUIPackageExtension.RegisterOnLoadResourceHandler(onLoadResourceHandler);
+            FairyGUIPackageExtension.InitFileNamePrefix(prefix);
         }
 
         public T LoadWindow<T>() where T : AbstractFGUIWindow

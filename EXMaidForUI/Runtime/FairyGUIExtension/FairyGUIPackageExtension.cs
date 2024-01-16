@@ -10,7 +10,10 @@ namespace EXMaidForUI.Runtime.FairyGUIExtension
     {
         public delegate object OnLoadResource(string path, Type type);
 
-        private static string fileNamePrefix => EXMaidUIDefine.FGUI_PACKAGE_PATH;
+        /// <summary>
+        ///     这个必须要注册，不然没有匹配的前缀可用
+        /// </summary>
+        private static string FileNamePrefix; // => EXMaidUIDefine.FGUI_PACKAGE_PATH;
 
         /// <summary>
         ///     这个必须要注册，不然默认使用的是Resources加载
@@ -24,9 +27,14 @@ namespace EXMaidForUI.Runtime.FairyGUIExtension
             _onLoadResourceHandler = handler;
         }
         
+        public static void InitFileNamePrefix(string prefix)
+        {
+            FileNamePrefix = prefix;
+        }
+        
         private static byte[] LoadDescData(string packageName)
         {
-            var path = $"{fileNamePrefix}{packageName}/{packageName}_fui.bytes";
+            var path = $"{FileNamePrefix}{packageName}/{packageName}_fui.bytes";
             if (_onLoadResourceHandler != null)
             {
                 return ((TextAsset)_onLoadResourceHandler(path, typeof(TextAsset))).bytes;
@@ -47,7 +55,7 @@ namespace EXMaidForUI.Runtime.FairyGUIExtension
             // 剔除alpha文件检查
             if (extension == ".png" && name.EndsWith("!a")) return null;
 
-            var path = $"{fileNamePrefix}{name}{extension}";
+            var path = $"{FileNamePrefix}{name}{extension}";
             if (_onLoadResourceHandler != null) return _onLoadResourceHandler(path, type);
 
 #if UNITY_EDITOR
@@ -69,7 +77,7 @@ namespace EXMaidForUI.Runtime.FairyGUIExtension
                     // 剔除alpha文件检查
                     if (ext == ".png" && name.EndsWith("!a")) return null;
 
-                    var path = $"{fileNamePrefix}{packageName}/{name}{ext}";
+                    var path = $"{FileNamePrefix}{packageName}/{name}{ext}";
                     if (_onLoadResourceHandler != null) return _onLoadResourceHandler(path, type);
 
 #if UNITY_EDITOR

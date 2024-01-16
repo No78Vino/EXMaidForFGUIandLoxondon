@@ -79,3 +79,37 @@
 
 - void RefreshSceneUICanvas(float cameraSize);
     - 刷新场景UI画布，用于在3D场景中显示UI。例如：血条，伤害飘字等。
+
+### AbstractFGUIWindow
+二次封装过的FairyGUI窗口类，提供了一些常用的功能。所有UI窗口必须继承该类。
+- protected void CreateContentPane(ViewModelCommon vm, string pkgName, string windowName, bool isFullScreen)
+    - 创建窗口UI的内容面板，该函数会自动创建窗口UI的背景面板和内容面板。
+    - vm: 该窗口UI对应的VM实例。
+    - pkgName: FairyGUI资源包名称。
+    - windowName: FairyGUI窗口组件名称。
+    - isFullScreen: 是否全屏窗口。
+- public GObject GetUI(string path)
+    - 获取窗口UI的组件。
+    - path: FairyGUI组件路径。
+- protected virtual void OnShown()
+    - 窗口UI打开时的回调。
+- public virtual void OnDispose()
+    - 窗口UI销毁时的回调。
+
+### ViewModelCommon
+二次封装过的LoxodonFramework的ViewModel类。所有UI的VM必须继承该类。
+-  public virtual void OnOpen()
+    - 窗口UI打开时的回调。
+- public virtual void Update_s()
+    - 窗口UI的Update函数,每秒更新。有需要时，就覆写该函数。
+- public virtual void Update_f()
+    - 窗口UI的Update函数,每帧更新。有需要时，就覆写该函数。
+- public virtual void OnLoaded()
+    - 窗口UI的VM加载完成时的回调。
+- public virtual void OnUnload()
+    - 窗口UI的VM卸载时的回调。
+- public InteractionRequest<string> transitionRequest = new InteractionRequest<string>();
+    - 窗口UI的动效请求。
+    - 使用方法：transitionRequest.Raise("UIB");
+- public InteractionRequest<string> commonRequest = new InteractionRequest<string>();
+    - 窗口UI的通用请求，用于VM对V的通信。用法很多，但建议只处理View的表现，不要处理业务逻辑。

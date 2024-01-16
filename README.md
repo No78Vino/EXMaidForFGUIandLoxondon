@@ -31,8 +31,6 @@
    >XUI.Launch(string prefix,FairyGUIPackageExtension.OnLoadResource onLoadResourceHandler)
 7. 接下来就根据项目的各自需要，加载/打开/关闭/管理UI
 
-## 参考案例
-
 ## API介绍
 ### XUI
 - static void Launch(string prefix,FairyGUIPackageExtension.OnLoadResource onLoadResourceHandler)
@@ -113,3 +111,17 @@
     - 使用方法：transitionRequest.Raise("UIB");
 - public InteractionRequest<string> commonRequest = new InteractionRequest<string>();
     - 窗口UI的通用请求，用于VM对V的通信。用法很多，但建议只处理View的表现，不要处理业务逻辑。
+
+### 其余工具类
+- FGUIUtil
+    - 提供一些FairyGUI的工具函数。
+- FairyGUIPackageExtension
+    - 对FairyGUI的包管理扩展函数，用于完善FairyGUI的包管理流程。
+    - 不建议手动调用，除非你知道你在做什么。
+- UIDefineGen
+  - UI定义脚本生成工具，用于生成UI定义脚本。
+  - 使用方法：EXTool -> EX Maid For UI -> Generate FairyGUI Define Code
+
+## 参考案例
+[Demo](https://github.com/No78Vino/gameplay-ability-system-for-unity/tree/main/Assets/Demo)
+

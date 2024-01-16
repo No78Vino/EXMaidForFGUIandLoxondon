@@ -16,6 +16,7 @@
 ## 快速开始
 ### 安装
 1. UMP中git方式添加依赖插件LoxodonFramework:https://github.com/vovgou/loxodon-framework.git?path=Loxodon.Framework/Assets/LoxodonFramework
+2. UMP中git方式添加依赖插件ExBaseKit:https://github.com/No78Vino/ExBaseKit.git
 2. UMP中git方式添加EXMaidForUI:https://github.com/No78Vino/EXMaidForFGUIandLoxondon.git
 
 ### 使用

@@ -4,6 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
+#if UNITY_EDITOR
 namespace FairyGUIEditor
 {
     /// <summary>
@@ -135,3 +136,4 @@ namespace FairyGUIEditor
         }
     }
 }
+#endif

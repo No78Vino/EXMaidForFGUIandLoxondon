@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEditor.SceneManagement;
 #endif
 
+#if UNITY_EDITOR
 namespace FairyGUIEditor
 {
     /// <summary>
@@ -169,3 +170,4 @@ namespace FairyGUIEditor
         }
     }
 }
+#endif

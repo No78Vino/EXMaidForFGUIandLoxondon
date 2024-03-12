@@ -8,6 +8,7 @@ using UnityEditor.SceneManagement;
 #if UNITY_2018_3_OR_NEWER
 #endif
 
+#if UNITY_EDITOR
 namespace FairyGUIEditor
 {
     /// <summary>
@@ -206,3 +207,4 @@ namespace FairyGUIEditor
         }
     }
 }
+#endif

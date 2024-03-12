@@ -2,6 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR
 namespace FairyGUIEditor
 {
     /// <summary>
@@ -232,3 +233,4 @@ namespace FairyGUIEditor
         }
     }
 }
+#endif

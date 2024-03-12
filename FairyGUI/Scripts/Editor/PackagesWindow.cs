@@ -1,16 +1,16 @@
-﻿using FairyGUI;
-using UnityEditor;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿#if UNITY_EDITOR
+namespace FairyGUIEditor
+{
+    using FairyGUI;
+    using UnityEditor;
+    using UnityEngine;
+    using UnityEngine.SceneManagement;
 #if UNITY_5_3_OR_NEWER
-using UnityEditor.SceneManagement;
+    using UnityEditor.SceneManagement;
 #endif
 #if UNITY_2018_3_OR_NEWER
 #endif
-
-#if UNITY_EDITOR
-namespace FairyGUIEditor
-{
+    
     /// <summary>
     /// </summary>
     public class PackagesWindow : EditorWindow

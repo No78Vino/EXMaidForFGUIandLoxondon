@@ -8,7 +8,8 @@ namespace EXMaidForUI.Runtime.EXMaid
         public static string ASSET_FOLDER_NAME = "EXMaid";
         public static string ASSET_FOLDER_PATH = "Assets/EXMaid";
         public static string ASSET_PATH = $"{ASSET_FOLDER_PATH}/EXMaidUIAsset.asset";
-        
+
+#if UNITY_EDITOR
         public static void CheckEXMaidUIFolder()
         {
             if (!AssetDatabase.IsValidFolder(ASSET_FOLDER_PATH))
@@ -17,5 +18,6 @@ namespace EXMaidForUI.Runtime.EXMaid
                 Debug.Log("EXMaid folder created!");
             }
         }
+#endif
     }
 }

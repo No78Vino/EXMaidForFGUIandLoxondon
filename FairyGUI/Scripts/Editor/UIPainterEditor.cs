@@ -1,14 +1,13 @@
-﻿using FairyGUI;
-using UnityEditor;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-#if UNITY_5_3_OR_NEWER
-using UnityEditor.SceneManagement;
-#endif
-
-#if UNITY_EDITOR
+﻿#if UNITY_EDITOR
 namespace FairyGUIEditor
 {
+    using FairyGUI;
+    using UnityEditor;
+    using UnityEngine;
+    using UnityEngine.SceneManagement;
+#if UNITY_5_3_OR_NEWER
+    using UnityEditor.SceneManagement;
+#endif
     /// <summary>
     /// </summary>
     [CustomEditor(typeof(UIPainter))]

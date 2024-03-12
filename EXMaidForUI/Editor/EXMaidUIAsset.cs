@@ -13,14 +13,15 @@ namespace EXMaidForUI.Runtime.EXMaid
         
         private static EXMaidUIAsset _asset;
         public static EXMaidUIAsset Asset => _asset ? _asset : _asset = Load();
-        
+
         public static EXMaidUIAsset Load()
         {
             string path = EXMaidUIDefine.ASSET_PATH;
 
             if (Application.isPlaying)
             {
-                EXMaidUIAsset exMaidUIAsset = FairyGUIPackageExtension.OnLoadResourceHandler(path, typeof(EXMaidUIAsset)) as EXMaidUIAsset;
+                EXMaidUIAsset exMaidUIAsset =
+                    FairyGUIPackageExtension.OnLoadResourceHandler(path, typeof(EXMaidUIAsset)) as EXMaidUIAsset;
                 if (exMaidUIAsset == null)
                 {
                     Debug.LogError("[EX] EXMaidUIAsset is null!" +
@@ -31,6 +32,7 @@ namespace EXMaidForUI.Runtime.EXMaid
             }
             else
             {
+#if UNITY_EDITOR
                 EXMaidUIAsset exMaidUIAsset = AssetDatabase.LoadAssetAtPath<EXMaidUIAsset>(path);
 
                 if (exMaidUIAsset != null) return exMaidUIAsset;
@@ -43,6 +45,7 @@ namespace EXMaidForUI.Runtime.EXMaid
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
                 return exMaidUIAsset;
+#endif
             }
         }
 

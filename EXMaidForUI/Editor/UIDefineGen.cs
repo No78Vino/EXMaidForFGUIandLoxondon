@@ -1,15 +1,16 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
-using EXMaidForUI.Runtime.EXMaid;
-using FairyGUI;
-using FairyGUIEditor;
-using UnityEditor;
-using UnityEngine;
-
+﻿#if UNITY_EDITOR
 namespace EXMaidForUI.Editor
 {
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Text.RegularExpressions;
+    using EXMaidForUI.Runtime.EXMaid;
+    using FairyGUI;
+    using FairyGUIEditor;
+    using UnityEditor;
+    using UnityEngine;
+    
     public static class UIDefineGen
     {
         private static HashSet<PackageItem> _itemsMap;
@@ -149,3 +150,4 @@ namespace UIGen
         }
     }
 }
+#endif

@@ -1,11 +1,12 @@
-﻿using EXMaidForUI.Runtime.EXMaid;
-using Sirenix.OdinInspector;
-using Sirenix.OdinInspector.Editor;
-using UnityEditor;
-using UnityEngine;
-
+﻿#if UNITY_EDITOR
 namespace EXMaidUI.Editor
 {
+    using EXMaidForUI.Runtime.EXMaid;
+    using Sirenix.OdinInspector;
+    using Sirenix.OdinInspector.Editor;
+    using UnityEditor;
+    using UnityEngine;
+
     public class EXUIMaidSetting:OdinEditorWindow
     {
         private EXMaidUIAsset _asset;
@@ -53,3 +54,4 @@ namespace EXMaidUI.Editor
         }
     }
 }
+#endif

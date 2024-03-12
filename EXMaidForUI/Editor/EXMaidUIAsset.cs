@@ -32,7 +32,6 @@ namespace EXMaidForUI.Runtime.EXMaid
             }
             else
             {
-#if UNITY_EDITOR
                 EXMaidUIAsset exMaidUIAsset = AssetDatabase.LoadAssetAtPath<EXMaidUIAsset>(path);
 
                 if (exMaidUIAsset != null) return exMaidUIAsset;
@@ -45,7 +44,6 @@ namespace EXMaidForUI.Runtime.EXMaid
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
                 return exMaidUIAsset;
-#endif
             }
         }
 

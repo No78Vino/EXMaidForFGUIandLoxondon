@@ -1,0 +1,16 @@
+{
+    "name": "com.exhard.fgui.editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:a8d733ce211d8474ea3be85ab6126dcc"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

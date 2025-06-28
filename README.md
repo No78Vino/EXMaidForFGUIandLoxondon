@@ -15,9 +15,9 @@
 
 ## 快速开始
 ### 安装
-1. UMP中git方式添加依赖插件LoxodonFramework:https://github.com/vovgou/loxodon-framework.git?path=Loxodon.Framework/Assets/LoxodonFramework
-2. UMP中git方式添加依赖插件ExBaseKit:https://github.com/No78Vino/ExBaseKit.git
-2. UMP中git方式添加EXMaidForUI:https://github.com/No78Vino/EXMaidForFGUIandLoxondon.git
+1. 导入Odin Inspector插件(付费),Odin Inspector来源请自行解决。建议使用3.2+版本
+2. UMP中git方式添加依赖插件LoxodonFramework:https://github.com/vovgou/loxodon-framework.git?path=Loxodon.Framework/Assets/LoxodonFramework
+3. UMP中git方式添加EXMaidForUI:https://github.com/No78Vino/EXMaidForFGUIandLoxondon.git
 
 ### 使用
 1. 先使用FairyGUI编辑器创建UI界面。请遵守以下**规范:**
